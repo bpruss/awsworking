@@ -70,10 +70,3 @@ aws ec2 create-route --route-table-id $v_rtb_id --gateway-id $v_igw --destinatio
 
 # done
 echo vpc setup done
-
-echo now seeing what it will take to delete fully.
-
-
-# find vpc id for later delete
-#vpc_id=$(aws ec2 describe-vpcs --filters Name=tag-key,Values=vpcname --filters Name=tag-value,Values=$vpcname --output text --query 'Vpcs[*].VpcId')
-#echo vpc_id=$vpc_id
