@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Bernie Pruss
+# Need to add missing lags for a couple items like the router table.
+
 # load master vars into variables.
 . ../mycredentials/vars.sh
 
@@ -34,10 +37,9 @@ done; echo "v_state=$v_state"
 v_igw=$(aws ec2 create-internet-gateway --output text --query 'InternetGateway.InternetGatewayId')
 echo v_igw=$v_igw
 
+# Tag the internet gateway
 v_igwname=myigw
 aws ec2 create-tags --resources $v_igw --tags Key=igwname,Value=$v_igwname
-
-# aws ec2 create-tags --resources igw-748bb210 --tags Key=igwname,Value=myigw
 
 
 # attach the igw to the vpc

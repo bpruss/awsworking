@@ -98,7 +98,7 @@ echo "transferred files"
 
 # run the secure script
 echo "running secure.sh"
-ssh -i credentials/basic.pem -t ec2-user@$v_ip_address sudo ./secure.sh
+ssh -i ../mycredentials/basic.pem -t ec2-user@$v_ip_address sudo ./secure.sh
 echo "finished secure.sh"
 
 # now ssh is on 38142
@@ -108,13 +108,13 @@ echo "sg updated"
 
 # instance is rebooting, wait for ssh again
 echo -n "waiting for ssh"
-while ! ssh -i credentials/basic.pem -p 38142 -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address > /dev/null 2>&1 true; do
+while ! ssh -i ../mycredentials/basic.pem -p 38142 -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address > /dev/null 2>&1 true; do
  echo -n . ; sleep 3;
 done; echo " ssh ok"
 
 # run a check script, you should check this output
 echo "running check.sh"
-ssh -i credentials/basic.pem -p 38142 -t -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address sudo ./check.sh
+ssh -i ../mycredentials/basic.pem -p 38142 -t -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address sudo ./check.sh
 echo "finished check.sh"
 
 # make the image
@@ -126,7 +126,7 @@ echo v_image_id=$v_image_id
 echo -n "waiting for image"
 while v_state=$(aws ec2 describe-images --image-id $v_image_id --output text --query 'Images[*].State'); test "$v_state" = "pending"; do
  echo -n . ; sleep 3;
-done; echo "v_state= $v_state"
+done; echo "v_state=$v_state"
 
 # terminate the instance
 aws ec2 terminate-instances --instance-ids $v_instance_id
@@ -138,14 +138,14 @@ while v_state=$(aws ec2 describe-instances --instance-ids $v_instance_id --outpu
 done; echo "v_state=$v_state"
 
 # delete the key
-#echo deleting key
-#rm credentials/basic.pem
-#aws ec2 delete-key-pair --key-name basic
+echo deleting key
+rm ../mycredentials/basic.pem
+aws ec2 delete-key-pair --key-name basic
 
 # delete the security group
-#echo deleting security group
-#aws ec2 delete-security-group --group-id $vpcbasicsg_id
+echo deleting security group
+aws ec2 delete-security-group --group-id $v_vpcbasicsg_id
 
 #cd $basedir
 
-#echo "done - Image made; Key, Security Group and Instance deleted"
+echo "done - Image made; Key, Security Group and Instance deleted"
