@@ -84,6 +84,68 @@ echo v_ip_address=$v_ip_address
 
 # wait for ssh to work
 echo -n "waiting for ssh"
-while ! ssh -i credentials/basic.pem -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address > /dev/null 2>&1 true; do
+while ! ssh -i ../mycredentials/basic.pem -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address > /dev/null 2>&1 true; do
  echo -n . ; sleep 3;
 done; echo " ssh ok"
+
+# send required files
+echo "transferring files"
+scp -i ../mycredentials/basic.pem ./shared/secure.sh ec2-user@$v_ip_address:
+scp -i ../mycredentials/basic.pem ./shared/check.sh ec2-user@$v_ip_address:
+scp -i ../mycredentials/basic.pem ./shared/sshd_config ec2-user@$v_ip_address:
+scp -i ../mycredentials/basic.pem ./shared/yumupdate.sh ec2-user@$v_ip_address:
+echo "transferred files"
+
+# run the secure script
+echo "running secure.sh"
+ssh -i credentials/basic.pem -t ec2-user@$v_ip_address sudo ./secure.sh
+echo "finished secure.sh"
+
+# now ssh is on 38142
+echo "adding port 38142 to sg"
+aws ec2 authorize-security-group-ingress --group-id $v_vpcbasicsg_id --protocol tcp --port 38142 --cidr $v_myip/32
+echo "sg updated"
+
+# instance is rebooting, wait for ssh again
+echo -n "waiting for ssh"
+while ! ssh -i credentials/basic.pem -p 38142 -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address > /dev/null 2>&1 true; do
+ echo -n . ; sleep 3;
+done; echo " ssh ok"
+
+# run a check script, you should check this output
+echo "running check.sh"
+ssh -i credentials/basic.pem -p 38142 -t -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address sudo ./check.sh
+echo "finished check.sh"
+
+# make the image
+echo "creating image"
+v_image_id=$(aws ec2 create-image --instance-id $v_instance_id --name "Basic Secure Linux" --description "Basic Secure Linux AMI" --output text --query 'ImageId')
+echo v_image_id=$v_image_id
+
+# wait for the image
+echo -n "waiting for image"
+while v_state=$(aws ec2 describe-images --image-id $v_image_id --output text --query 'Images[*].State'); test "$v_state" = "pending"; do
+ echo -n . ; sleep 3;
+done; echo "v_state= $v_state"
+
+# terminate the instance
+aws ec2 terminate-instances --instance-ids $v_instance_id
+
+# wait for termination
+echo -n "waiting for instance termination"
+while v_state=$(aws ec2 describe-instances --instance-ids $v_instance_id --output text --query 'Reservations[*].Instances[*].State.Name'); test "$v_state" != "terminated"; do
+ echo -n . ; sleep 3;
+done; echo "v_state=$v_state"
+
+# delete the key
+#echo deleting key
+#rm credentials/basic.pem
+#aws ec2 delete-key-pair --key-name basic
+
+# delete the security group
+#echo deleting security group
+#aws ec2 delete-security-group --group-id $vpcbasicsg_id
+
+#cd $basedir
+
+#echo "done - Image made; Key, Security Group and Instance deleted"
