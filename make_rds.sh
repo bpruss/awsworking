@@ -54,12 +54,9 @@ if (($v_rdsusemultiaz > 0)); then
 
  # multi-az : can't use --availability-zone with --multi-az
  aws rds create-db-instance --db-instance-identifier $v_dbinstancename --db-instance-class $v_rdsinstancetype --db-name $v_dbname --engine MySQL --engine-version $v_mysqlversion --port 3306 --allocated-storage $v_rdsvolumesize --no-auto-minor-version-upgrade --db-parameter-group-name $v_dbpgname --master-username mainuser --master-user-password $v_password1 --backup-retention-period 14 --no-publicly-accessible --region $v_deployregion --multi-az --vpc-security-group-ids $v_vpcdbsg_id --db-subnet-group-name $v_dbsubnetgroupname
-
 else
-
  # no multi-az
  aws rds create-db-instance --db-instance-identifier $v_dbinstancename --db-instance-class $v_rdsinstancetype --db-name $v_dbname --engine MySQL --engine-version $v_mysqlversion --port 3306 --allocated-storage $v_rdsvolumesize --no-auto-minor-version-upgrade --db-parameter-group-name $v_dbpgname --master-username mainuser --master-user-password $v_password1 --backup-retention-period 14 --no-publicly-accessible --region $v_deployregion --availability-zone $v_deployzone --vpc-security-group-ids $v_vpcdbsg_id --db-subnet-group-name $v_dbsubnetgroupname
-
 fi
 
 echo database started, use make2.sh to check for completion

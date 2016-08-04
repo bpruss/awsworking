@@ -27,4 +27,16 @@ echo v_dbsg_id=$v_dbsg_id
 
 aws ec2 delete-security-group --group-id $v_dbsg_id
 
+# release elastic ips
+echo reseasing elastic ips
+v_eip=$(aws ec2 describe-addresses --output text --query 'Addresses[*].AllocationId')
+echo v_eip=$v_eip
+v_eiparr=$(echo $v_eip | tr " " "\n")
+for i in $v_eiparr
+do
+ echo found eip $i
+ aws ec2 release-address --allocation-id $i
+done
+
+
 echo end of delete_rds.sh

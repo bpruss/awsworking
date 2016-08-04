@@ -117,8 +117,8 @@ aws ec2 associate-address --instance-id $v_instance_id --allocation-id $v_ip_all
 echo "associated eip with admin instance"
 
 # get adminhost private ip
-adminhost=$(aws ec2 describe-instances --filters Name=key-name,Values=admin --output text --query 'Reservations[*].Instances[*].PrivateIpAddress')
-echo adminhost=$v_adminhost
+v_adminhost=$(aws ec2 describe-instances --filters Name=key-name,Values=admin --output text --query 'Reservations[*].Instances[*].PrivateIpAddress')
+echo v_adminhost=$v_adminhost
 
 # ipaddress is new eib address
 v_ip_address=$(aws ec2 describe-instances --instance-ids $v_instance_id --output text --query 'Reservations[*].Instances[*].PublicIpAddress')
