@@ -5,7 +5,8 @@
 
 # load master vars into variables.
 . ../mycredentials/vars.sh
-
+set_vars_p
+# not display here
 
 # terminate rds (with no final snapshot)
 aws rds delete-db-instance --db-instance-identifier $v_dbinstancename --skip-final-snapshot

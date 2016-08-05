@@ -4,7 +4,10 @@
 # database is populated in admin server setup
 
 # load master vars into variables.
-. ../mycredentials/vars.sh
+source ../mycredentials/vars.sh
+set_vars_p
+display_vars_p ALL
+
 
 if [ -e "../mycredentials/passwords.sh" ]
 then

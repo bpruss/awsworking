@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# load master vars into variables.
-. ../mycredentials/vars.sh
+source ../mycredentials/vars.sh
+set_vars_p
+display_vars_p AWS
+display_vars_p NET
+
 
 if [ -e "../mycredentials/passwords.sh" ]
 then

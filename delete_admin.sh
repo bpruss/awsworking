@@ -1,6 +1,9 @@
 #!/bin/bash
 
-. ../mycredentials/vars.sh
+source ../mycredentials/vars.sh
+set_vars_p
+display_vars_p ALL
+
 
 v_myip=$(curl http://checkip.amazonaws.com/)
 echo v_myip=$v_myip

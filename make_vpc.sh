@@ -4,16 +4,10 @@
 # Need to add missing lags for a couple items like the router table.
 
 # load master vars into variables.
-. ../mycredentials/vars.sh
-
-# load passwords into vars
-#. ../mycredentials/passwords.sh
-
-#echo v_password1=$v_password1
-#echo v_password2=$v_password2
-#echo
-
-# exit
+source ../mycredentials/vars.sh
+set_vars_p
+display_vars_p AWS
+display_vars_p NET
 
 # make a new vpc with a master 10.0.0.0/16 subnet
 v_vpc_id=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 --output text --query 'Vpc.VpcId')

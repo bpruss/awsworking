@@ -2,6 +2,7 @@
 
 # load master vars into variables.
 . ../mycredentials/vars.sh
+set_vars_p
 
 v_vpc_id=$(aws ec2 describe-vpcs --filters Name=tag-key,Values=vpcname --filters Name=tag-value,Values=$v_vpcname --output text --query 'Vpcs[*].VpcId')
 echo v_vpc_id=$v_vpc_id

@@ -1,6 +1,9 @@
 #!/bin/bash
 
-. ../mycredentials/vars.sh
+source ../mycredentials/vars.sh
+set_vars_p
+display_vars_p ALL
+
 
 if [ -e "../mycredentials/passwords.sh" ]
 then
@@ -14,8 +17,8 @@ fi
 # Load passwords into variables
 # include passwords
 source ../mycredentials/passwords.sh
-rootpass=$password2
-ec2pass=$password3
+v_rootpass=$v_password2
+v_ec2pass=$v_password3
 
 
 # EBS volume size specifier
