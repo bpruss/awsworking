@@ -187,7 +187,10 @@ rm -f admin/server.xml
 # run the install script
 echo "running install_admin.sh"
 ssh -i ../mycredentials/admin.pem -p 38142 -t -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$v_ip_address sudo ./install_admin.sh
-# ssh -i ../mycredentials/admin.pem -p 38142 -t -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$52.204.179.229 sudo ./install_admin.sh
+
+# ssh -i ../mycredentials/admin.pem -p 38142 -t -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$52.204.179.229
+# ssh -i ../mycredentials/admin.pem -p 38142 -o ConnectTimeout=60 -o BatchMode=yes -o StrictHostKeyChecking=no ec2-user@$52.207.160.176
+
 echo "finished install_admin.sh"
 
 # close the ssh port

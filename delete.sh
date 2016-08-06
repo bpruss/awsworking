@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo starting delete_elb.sh
+./delete_elb.sh
+
 echo starting delete_admin.sh
 ./delete_admin.sh
 
