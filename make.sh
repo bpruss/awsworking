@@ -18,8 +18,8 @@ echo make_admin.sh
 echo make_elb.sh
 ./make_elb.sh
 
-for (( i=1; i<=$v_numwebs; i++ )) do
- echo $'\n\n*********************\n MAKING WEB\n*********************\n\n'
- . ./make_webphp.sh $i
- echo $'\n\n*********************\n MADE WEB\n*********************\n\n'
-done
+#for (( i=1; i<=$v_numwebs; i++ )) do
+# echo $'\n\n*********************\n MAKING WEB\n*********************\n\n'
+# . ./make_webphp.sh $i
+# echo $'\n\n*********************\n MADE WEB\n*********************\n\n'
+#done

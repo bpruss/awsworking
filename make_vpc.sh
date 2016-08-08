@@ -28,12 +28,12 @@ while v_state=$(aws ec2 describe-vpcs --filters Name=tag-key,Values=vpcname --fi
 done; echo "v_state=$v_state"
 
 # create an internet gateway (to allow access out to the internet)
-v_igw=$(aws ec2 create-internet-gateway --output text --query 'InternetGateway.InternetGatewayId')
-echo v_igw=$v_igw
+v_igw_id=$(aws ec2 create-internet-gateway --output text --query 'InternetGateway.InternetGatewayId')
+echo v_igw_id=$v_igw_id
 
 # Tag the internet gateway
 v_igwname=myigw
-aws ec2 create-tags --resources $v_igw --tags Key=igwname,Value=$v_igwname
+aws ec2 create-tags --resources $v_igw_id --tags Key=igwname,Value=$v_igwname
 
 
 # attach the igw to the vpc

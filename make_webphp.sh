@@ -27,7 +27,7 @@ v_exists=$(aws ec2 describe-key-pairs --key-names web$v_webid --output text --qu
 
 if test "$v_exists" = "web$v_webid"; then
  echo "key web$v_webid already exists = exiting"
- #exit
+ exit
 else
  echo "key web$v_webid not found - proceeding"
 fi
