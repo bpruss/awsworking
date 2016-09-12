@@ -1,16 +1,17 @@
 #!/bin/bash
 
-source ../mycredentials/vars.sh
-set_vars_p
+source ../mycredentials/vars123.sh
+set_vars_p $1
+display_vars_p ALL
 
 source aws_library.sh
 
-v_vpc_id=$(create_vpc_f TESTVPC)
+v_vpc_id=$(create_vpc_f $v_vpc_name)
 echo created v_vpc_id=$v_vpc_id
 
-wait_for_vpc_p TESTVPC
+wait_for_vpc_p $v_vpc_name
 
-v_igw_id=$(create_igw_f testigw )
+v_igw_id=$(create_igw_f $v_igw_name )
 echo v_igw_id=$v_igw_id
 
 attach_igw_p $v_vpc_id $v_igw_id

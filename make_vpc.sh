@@ -5,7 +5,7 @@
 
 # load master vars into variables.
 source ../mycredentials/vars.sh
-set_vars_p
+set_vars_p 
 display_vars_p AWS
 display_vars_p NET
 

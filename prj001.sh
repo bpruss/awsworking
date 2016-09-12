@@ -15,3 +15,5 @@ set_vars_p PRJ001
 display_vars_p ALL
 
 make_vpc_f $v_vpc_name $v_igw_name
+
+make_shared_template_p $v_baseami "$v_template_name"

@@ -7,7 +7,7 @@
 # parameters <N> where this is the Nth web box (1-5)
 
 source ../mycredentials/vars.sh
-set_vars_p
+set_vars_p 
 display_vars_p ALL
 
 # Bernie Pruss - sda1 to xvda

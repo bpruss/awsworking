@@ -15,8 +15,8 @@ echo starting make_rds.sh - Just waites for rds to finish and sets endpoint.
 echo make_admin.sh
 ./make_admin.sh
 
-echo make_elb.sh
-./make_elb.sh
+#echo make_elb.sh
+#./make_elb.sh
 
 #for (( i=1; i<=$v_numwebs; i++ )) do
 # echo $'\n\n*********************\n MAKING WEB\n*********************\n\n'
